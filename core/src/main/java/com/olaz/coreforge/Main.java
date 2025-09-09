@@ -8,11 +8,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.olaz.coreforge.screens.TitleScreen;
+import com.olaz.coreforge.world.tiles.TileFactory;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends Game{
     @Override
     public void create() {
+        TileFactory.loadDefinitions("data/tiles.json");
         setScreen(new TitleScreen(this));
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        TileFactory.dispose();
     }
 }

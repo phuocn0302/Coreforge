@@ -144,7 +144,7 @@ public class TitleScreen implements Screen {
         startBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO: change to game screen
+                game.setScreen(new GameScreen(game));
             }
         });
 

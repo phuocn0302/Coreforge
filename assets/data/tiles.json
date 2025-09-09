@@ -1,0 +1,22 @@
+{
+  "GRASS": {
+    "type": "GROUND",
+    "texture": "tiles/ground/grass.png"
+  },
+  "ORE_IRON": {
+    "type": "MINERAL",
+    "texture": "tiles/mineral/ore_iron.png"
+  },
+  "ORE_COPPER": {
+    "type": "MINERAL",
+    "texture": "tiles/mineral/ore_copper.png"
+  },
+  "ORE_COAL": {
+    "type": "MINERAL",
+    "texture": "tiles/mineral/ore_coal.png"
+  },
+  "WATER": {
+    "type": "FLUID",
+    "texture": "tiles/fluid/fluid_water.png"
+  }
+}
