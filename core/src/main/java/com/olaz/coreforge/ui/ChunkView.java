@@ -25,8 +25,8 @@ public class ChunkView extends Actor {
         float tileSize = (getWidth() / chunk.getSize().getWidth());
 
         for (Tile tile : chunk.getTiles()) {
-            float x = getX() + tile.getPosition().getX() * tileSize;
-            float y = getY() + tile.getPosition().getY() * tileSize;
+            float x = getX() + tile.getPosition().x * tileSize;
+            float y = getY() + tile.getPosition().y * tileSize;
             if (tile.getTexture() != null) {
                 batch.draw(tile.getTexture(), x, y, tileSize, tileSize);
             }

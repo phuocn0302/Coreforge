@@ -2,10 +2,10 @@ package com.olaz.coreforge.world.tiles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.olaz.coreforge.data.Position;
 import com.olaz.coreforge.world.tiles.types.FluidTile;
 import com.olaz.coreforge.world.tiles.types.GroundTile;
 import com.olaz.coreforge.world.tiles.types.MineralTile;
@@ -28,7 +28,7 @@ public class TileFactory {
         }
     }
 
-    public static Tile createTile(String id, Position position) {
+    public static Tile createTile(String id, Vector2 position) {
         TileData data = tileDefinitions.get(id);
         if (data == null) {
             throw new IllegalArgumentException("No tile definition found for id: " + id);

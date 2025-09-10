@@ -1,18 +1,18 @@
 package com.olaz.coreforge.world.tiles;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.olaz.coreforge.data.Position;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.Objects;
 
 public abstract class Tile {
     private TileType type;
     private Texture texture;
-    private Position position;
+    private Vector2 position;
     private boolean canInteract = false;
     private boolean hasBlock = false;
 
-    public Tile(TileType type, Texture texture, Position position) {
+    public Tile(TileType type, Texture texture, Vector2 position) {
         this.type = type;
         this.texture = texture;
         this.position = position;
@@ -48,11 +48,11 @@ public abstract class Tile {
         this.canInteract = canInteract;
     }
 
-    public Position getPosition() {
+    public Vector2 getPosition() {
         return position;
     }
 
-    public void setPosition(Position position) {
+    public void setPosition(Vector2 position) {
         this.position = position;
     }
 

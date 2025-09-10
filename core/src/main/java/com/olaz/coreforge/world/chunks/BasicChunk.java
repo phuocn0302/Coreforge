@@ -1,6 +1,6 @@
 package com.olaz.coreforge.world.chunks;
 
-import com.olaz.coreforge.data.Position;
+import com.badlogic.gdx.math.Vector2;
 import com.olaz.coreforge.world.Chunk;
 import com.olaz.coreforge.world.tiles.TileFactory;
 
@@ -35,7 +35,7 @@ public class BasicChunk extends Chunk {
                     tileId = "GRASS";
                 }
 
-                getTiles().add(TileFactory.createTile(tileId, new Position(x, y)));
+                getTiles().add(TileFactory.createTile(tileId, new Vector2(x, y)));
             }
         }
     }

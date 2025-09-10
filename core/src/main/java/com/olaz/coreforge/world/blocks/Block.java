@@ -1,13 +1,13 @@
 package com.olaz.coreforge.world.blocks;
 
-import com.olaz.coreforge.data.Position;
+import com.badlogic.gdx.math.Vector2;
 import com.olaz.coreforge.data.Size;
 
 public abstract class Block {
     private final String id;
     private final String description;
     private Size size;
-    private Position position;
+    private Vector2 position;
 
     public Block(String id, String description, Size size) {
         this.id = id;
@@ -19,7 +19,7 @@ public abstract class Block {
         this.id = id;
         this.description = description;
         this.size = new Size(1,1);
-        this.position = new Position(0,0);
+        this.position = new Vector2(0,0);
     }
 
     public String getId() {
@@ -38,11 +38,11 @@ public abstract class Block {
         this.size = size;
     }
 
-    public Position getPosition() {
+    public Vector2 getPosition() {
         return position;
     }
 
-    public void setPosition(Position position) {
+    public void setPosition(Vector2 position) {
         this.position = position;
     }
 }
