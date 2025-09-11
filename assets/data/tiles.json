@@ -1,22 +1,58 @@
 {
   "GRASS": {
     "type": "GROUND",
-    "texture": "tiles/ground/grass.png"
+    "textures": [
+      {
+        "path": "tiles/ground/grass.png",
+        "weight": 20
+      },
+      {
+        "path": "tiles/ground/grass1.png"
+      },
+      {
+        "path": "tiles/ground/grass2.png"
+      }
+    ]
   },
   "ORE_IRON": {
     "type": "MINERAL",
-    "texture": "tiles/mineral/ore_iron.png"
+    "textures": [
+      {
+        "path": "tiles/mineral/ore_iron.png"
+      },
+      {
+        "path": "tiles/mineral/ore_iron1.png"
+      }
+    ]
   },
   "ORE_COPPER": {
     "type": "MINERAL",
-    "texture": "tiles/mineral/ore_copper.png"
+    "textures": [
+      {
+        "path": "tiles/mineral/ore_copper.png"
+      },
+      {
+        "path": "tiles/mineral/ore_copper1.png"
+      }
+    ]
   },
   "ORE_COAL": {
     "type": "MINERAL",
-    "texture": "tiles/mineral/ore_coal.png"
+    "textures": [
+      {
+        "path": "tiles/mineral/ore_coal.png"
+      },
+      {
+        "path": "tiles/mineral/ore_coal1.png"
+      }
+    ]
   },
   "WATER": {
     "type": "FLUID",
-    "texture": "tiles/fluid/fluid_water.png"
+    "textures": [
+      {
+        "path": "tiles/fluid/fluid_water.png"
+      }
+    ]
   }
 }
