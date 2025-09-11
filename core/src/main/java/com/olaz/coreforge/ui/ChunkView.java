@@ -1,7 +1,5 @@
 package com.olaz.coreforge.ui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -36,28 +34,6 @@ public class ChunkView extends Actor {
         }
     }
 
-    @Override
-    public void act(float delta) {
-       pollingUpdate(delta);
-    }
-
-    public void pollingUpdate(float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.PLUS) || Gdx.input.isKeyPressed(Input.Keys.EQUALS))
-            this.zoomIn(delta * 2);
-        if (Gdx.input.isKeyPressed(Input.Keys.MINUS))
-            this.zoomOut(delta * 2);
-        if (Gdx.input.isKeyPressed(Input.Keys.R))
-            this.resetZoom();
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            this.addOffset(new Vector2(1, 0));
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            this.addOffset(new Vector2(-1, 0));
-        if (Gdx.input.isKeyPressed(Input.Keys.UP))
-            this.addOffset(new Vector2(0, -1));
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
-            this.addOffset(new Vector2(0, 1));
-    }
     public float getZoom() {
         return this.zoom;
     }

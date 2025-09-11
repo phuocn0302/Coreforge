@@ -2,15 +2,18 @@ package com.olaz.coreforge.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.olaz.coreforge.ui.ChunkView;
+import com.olaz.coreforge.ui.ChunkViewInputHandler;
 import com.olaz.coreforge.utils.FontUtils;
 import com.olaz.coreforge.world.chunks.BasicChunk;
 
@@ -20,6 +23,7 @@ public class GameScreen implements Screen {
     private Stage stage;
     private Skin skin;
     private ChunkView chunkView;
+    private ChunkViewInputHandler chunkInputHandler;
 
     public GameScreen(Game game) {
         this.game = game;
@@ -28,10 +32,10 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         stage = new Stage(new FitViewport(180, 320));
-        Gdx.input.setInputProcessor(stage);
 
         setupSkin();
         setupUI();
+        setupInput();
     }
 
     @Override
@@ -40,6 +44,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(delta);
         stage.draw();
+
+        updatePollingInput(delta);
     }
 
     @Override
@@ -68,7 +74,6 @@ public class GameScreen implements Screen {
         skin.dispose();
     }
 
-
     private void setupSkin() {
         skin = new Skin();
         BitmapFont font = FontUtils.loadTTF("fonts/monogram.ttf", 16, Color.WHITE);
@@ -93,5 +98,22 @@ public class GameScreen implements Screen {
         root.add(chunkTable).row();
 
         stage.addActor(root);
+    }
+
+    private void setupInput() {
+        chunkInputHandler = new ChunkViewInputHandler(chunkView);
+        GestureDetector gestureDetector = new GestureDetector(chunkInputHandler);
+
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(gestureDetector);
+        multiplexer.addProcessor(chunkInputHandler);
+        multiplexer.addProcessor(stage);
+
+        Gdx.input.setInputProcessor(multiplexer);
+    }
+
+    private void updatePollingInput(float delta) {
+        if (chunkInputHandler != null)
+            chunkInputHandler.pollingUpdate(delta);
     }
 }
