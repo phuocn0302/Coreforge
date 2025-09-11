@@ -19,6 +19,7 @@ public class GameScreen implements Screen {
     private final Game game;
     private Stage stage;
     private Skin skin;
+    private ChunkView chunkView;
 
     public GameScreen(Game game) {
         this.game = game;
@@ -75,13 +76,21 @@ public class GameScreen implements Screen {
     }
 
     private void setupUI() {
+        int chunkSize = 164;
+
         BasicChunk chunk = new BasicChunk();
-        ChunkView chunkView = new ChunkView(chunk, 156, 156);
+        chunkView = new ChunkView(chunk, chunkSize, chunkSize);
+        chunkView.setZoom(2f);
+
+        Table chunkTable = new Table();
+        chunkTable.setSize(chunkSize, chunkSize);
+        chunkTable.setClip(true);
+        chunkTable.add(chunkView);
 
         Table root = new Table();
         root.setFillParent(true);
         root.top().pad(12);
-        root.add(chunkView).size(156, 156).row();
+        root.add(chunkTable).row();
 
         stage.addActor(root);
     }
