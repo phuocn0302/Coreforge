@@ -5,10 +5,11 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.olaz.coreforge.world.tiles.Extractable;
+import com.olaz.coreforge.utils.observer.Event;
 import com.olaz.coreforge.world.tiles.Tile;
 
 public class ChunkViewInputHandler extends InputAdapter implements GestureDetector.GestureListener {
+    public static Event<Tile> onTileTapped = new Event<>();
     private final ChunkView view;
     private float initialZoom;
 
@@ -90,9 +91,7 @@ public class ChunkViewInputHandler extends InputAdapter implements GestureDetect
             return false;
         }
 
-        if (tile instanceof Extractable) {
-            ((Extractable) tile).extract();
-        }
+        onTileTapped.emit(tile);
 
         return true;
     }

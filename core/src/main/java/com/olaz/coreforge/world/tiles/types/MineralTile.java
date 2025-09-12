@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.olaz.coreforge.data.Resource;
+import com.olaz.coreforge.utils.observer.Event;
 import com.olaz.coreforge.world.tiles.Extractable;
 import com.olaz.coreforge.world.tiles.Tile;
 import com.olaz.coreforge.world.tiles.TileBorder;
 import com.olaz.coreforge.world.tiles.TileType;
 
 public class MineralTile extends Tile implements Extractable {
+    public final Event<Resource> onResourceExtracted = new Event<>();
     private final Resource mineResource;
 
     public MineralTile(TileType type, Texture texture, Vector2 position, Resource mineResource) {
@@ -22,8 +24,13 @@ public class MineralTile extends Tile implements Extractable {
         this.mineResource = mineResource;
     }
 
+    public Resource getMineResource() {
+        return mineResource;
+    }
+
     @Override
     public void extract() {
         Gdx.app.log("MineralTile", "Extracted: " + this.mineResource);
+        onResourceExtracted.emit(this.mineResource);
     }
 }

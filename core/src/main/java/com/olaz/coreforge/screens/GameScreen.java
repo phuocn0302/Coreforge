@@ -12,10 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.olaz.coreforge.systems.MainInventory;
 import com.olaz.coreforge.ui.ChunkView;
 import com.olaz.coreforge.ui.ChunkViewInputHandler;
 import com.olaz.coreforge.utils.FontUtils;
 import com.olaz.coreforge.world.chunks.BasicChunk;
+import com.olaz.coreforge.world.tiles.types.MineralTile;
 
 public class GameScreen implements Screen {
 
@@ -24,6 +26,7 @@ public class GameScreen implements Screen {
     private Skin skin;
     private ChunkView chunkView;
     private ChunkViewInputHandler chunkInputHandler;
+    private MainInventory mainInventory;
 
     public GameScreen(Game game) {
         this.game = game;
@@ -36,6 +39,8 @@ public class GameScreen implements Screen {
         setupSkin();
         setupUI();
         setupInput();
+        setupInventory();
+        setupEvent();
     }
 
     @Override
@@ -110,6 +115,20 @@ public class GameScreen implements Screen {
         multiplexer.addProcessor(stage);
 
         Gdx.input.setInputProcessor(multiplexer);
+    }
+
+    private void setupInventory() {
+        mainInventory = new MainInventory();
+    }
+
+    private void setupEvent() {
+        ChunkViewInputHandler.onTileTapped.connect(tile -> {
+            if (tile instanceof MineralTile) {
+                ((MineralTile) tile).extract();
+                mainInventory.addToInventory(((MineralTile) tile).getMineResource(), 1);
+                Gdx.app.log("Inventory", mainInventory.toString());
+            }
+        });
     }
 
     private void updatePollingInput(float delta) {
