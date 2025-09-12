@@ -8,6 +8,8 @@ import java.util.Objects;
 public abstract class Tile {
     private TileType type;
     private Texture texture;
+    private TileBorder borderTextureRegion;
+    private int borderMask;
     private Vector2 position;
     private boolean canInteract = false;
     private boolean hasBlock = false;
@@ -20,6 +22,11 @@ public abstract class Tile {
         // Maybe change to switch case if later add more complicated tile type
         canInteract = Objects.requireNonNull(type) != TileType.GROUND;
 
+    }
+
+    public Tile(TileType type, Texture texture, Vector2 position, TileBorder borderTextures) {
+        this(type, texture, position);
+        setBorderTextureRegion(borderTextures);
     }
 
     public abstract void onInteract();
@@ -65,5 +72,21 @@ public abstract class Tile {
         if (hasBlock) {
             setCanInteract(false);
         }
+    }
+
+    public TileBorder getBorderTextureRegion() {
+        return borderTextureRegion;
+    }
+
+    public void setBorderTextureRegion(TileBorder borderTextureRegion) {
+        this.borderTextureRegion = borderTextureRegion;
+    }
+
+    public int getBorderMask() {
+        return borderMask;
+    }
+
+    public void setBorderMask(int borderMask) {
+        this.borderMask = borderMask;
     }
 }

@@ -59,18 +59,30 @@ public class TileFactory {
             path -> new Texture(Gdx.files.internal(path))
         );
 
+
+
+        TileBorder tileBorder = null;
+        if (data.borders != null) {
+            Texture borderTilemap = textureCache.computeIfAbsent(
+                data.borders,
+                path -> new Texture(Gdx.files.internal(path))
+            );
+
+            tileBorder = new TileBorder(borderTilemap);
+        }
+
         TileType type = TileType.valueOf(data.type);
 
         Tile tile;
         switch (type) {
             case GROUND:
-                tile = new GroundTile(type, texture, position);
+                tile = new GroundTile(type, texture, position, tileBorder);
                 break;
             case MINERAL:
-                tile = new MineralTile(type, texture, position);
+                tile = new MineralTile(type, texture, position, tileBorder);
                 break;
             case FLUID:
-                tile = new FluidTile(type, texture, position);
+                tile = new FluidTile(type, texture, position, tileBorder);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown TileType: " + type);

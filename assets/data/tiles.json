@@ -12,7 +12,8 @@
       {
         "path": "tiles/ground/grass2.png"
       }
-    ]
+    ],
+    "borders": "tiles/ground/grass_border.png"
   },
   "ORE_IRON": {
     "type": "MINERAL",
@@ -23,7 +24,8 @@
       {
         "path": "tiles/mineral/ore_iron1.png"
       }
-    ]
+    ],
+    "borders": "tiles/mineral/ore_iron_border.png"
   },
   "ORE_COPPER": {
     "type": "MINERAL",
@@ -34,7 +36,8 @@
       {
         "path": "tiles/mineral/ore_copper1.png"
       }
-    ]
+    ],
+    "borders": "tiles/mineral/ore_copper_border.png"
   },
   "ORE_COAL": {
     "type": "MINERAL",
@@ -45,7 +48,8 @@
       {
         "path": "tiles/mineral/ore_coal1.png"
       }
-    ]
+    ],
+    "borders": "tiles/mineral/ore_coal_border.png"
   },
   "WATER": {
     "type": "FLUID",
@@ -53,6 +57,7 @@
       {
         "path": "tiles/fluid/fluid_water.png"
       }
-    ]
+    ],
+    "borders": "tiles/fluid/fluid_water_border.png"
   }
 }

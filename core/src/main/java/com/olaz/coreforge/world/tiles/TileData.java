@@ -8,6 +8,7 @@ import java.util.List;
 public class TileData {
     public String type;
     public List<TextureEntry> textures;
+    public String borders;
 
     public static class TextureEntry {
         public String path;
