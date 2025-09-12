@@ -2,6 +2,7 @@ package com.olaz.coreforge.world.tiles;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.olaz.coreforge.data.Resource;
 
 import java.util.Objects;
 
@@ -9,6 +10,7 @@ public abstract class Tile {
     private TileType type;
     private Texture texture;
     private TileBorder borderTextureRegion;
+    private Resource harvestResource;
     private int borderMask;
     private Vector2 position;
     private boolean canInteract = false;
@@ -27,6 +29,11 @@ public abstract class Tile {
     public Tile(TileType type, Texture texture, Vector2 position, TileBorder borderTextures) {
         this(type, texture, position);
         setBorderTextureRegion(borderTextures);
+    }
+
+    public Tile(TileType type, Texture texture, Vector2 position, TileBorder borderTextures, Resource harvestResource) {
+        this(type, texture, position, borderTextures);
+        setHarvestResource(harvestResource);
     }
 
     public abstract void onInteract();
@@ -88,6 +95,14 @@ public abstract class Tile {
 
     public void setBorderMask(int borderMask) {
         this.borderMask = borderMask;
+    }
+
+    public Resource getHarvestResource() {
+        return harvestResource;
+    }
+
+    public void setHarvestResource(Resource harvestResource) {
+        this.harvestResource = harvestResource;
     }
 
     @Override

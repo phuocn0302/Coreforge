@@ -1,12 +1,7 @@
 package com.olaz.coreforge;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.olaz.coreforge.data.ResourcesFactory;
 import com.olaz.coreforge.screens.TitleScreen;
 import com.olaz.coreforge.world.tiles.TileFactory;
 
@@ -15,6 +10,8 @@ public class Main extends Game{
     @Override
     public void create() {
         TileFactory.loadDefinitions("data/tiles.json");
+        ResourcesFactory.loadDefinitions("data/resources.json");
+
         setScreen(new TitleScreen(this));
     }
 
@@ -22,5 +19,6 @@ public class Main extends Game{
     public void dispose() {
         super.dispose();
         TileFactory.dispose();
+        ResourcesFactory.dispose();
     }
 }

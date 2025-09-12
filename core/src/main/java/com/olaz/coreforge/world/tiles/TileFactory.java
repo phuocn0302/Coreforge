@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.math.MathUtils;
+import com.olaz.coreforge.data.ResourcesFactory;
 import com.olaz.coreforge.world.tiles.types.FluidTile;
 import com.olaz.coreforge.world.tiles.types.GroundTile;
 import com.olaz.coreforge.world.tiles.types.MineralTile;
@@ -18,6 +19,9 @@ import java.util.Map;
 public class TileFactory {
     private static final Map<String, TileData> tileDefinitions = new HashMap<>();
     private static final Map<String, Texture> textureCache = new HashMap<>();
+
+    private TileFactory() {
+    }
 
     public static void loadDefinitions(String path) {
         Json json = new Json();
@@ -60,7 +64,6 @@ public class TileFactory {
         );
 
 
-
         TileBorder tileBorder = null;
         if (data.borders != null) {
             Texture borderTilemap = textureCache.computeIfAbsent(
@@ -79,7 +82,7 @@ public class TileFactory {
                 tile = new GroundTile(type, texture, position, tileBorder);
                 break;
             case MINERAL:
-                tile = new MineralTile(type, texture, position, tileBorder);
+                tile = new MineralTile(type, texture, position, tileBorder, ResourcesFactory.getResource(data.harvestResourceId));
                 break;
             case FLUID:
                 tile = new FluidTile(type, texture, position, tileBorder);
@@ -95,5 +98,17 @@ public class TileFactory {
             tex.dispose();
         }
         textureCache.clear();
+    }
+
+    public static class TileData {
+        public String type;
+        public List<TextureEntry> textures;
+        public String borders;
+        public String harvestResourceId;
+
+        public static class TextureEntry {
+            public String path;
+            public int weight = 1;
+        }
     }
 }

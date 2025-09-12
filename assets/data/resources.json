@@ -1,0 +1,20 @@
+{
+  "ORE_IRON": {
+    "id": "r_ore_iron",
+    "name": "Iron Ore",
+    "description": "Raw iron ore, can be smelted into an ingot",
+    "texturePath": "tiles/mineral/ore_iron.png"
+  },
+  "ORE_COPPER": {
+    "id": "r_ore_copper",
+    "name": "Copper Ore",
+    "description": "Raw copper ore, can be smelted into an ingot",
+    "texturePath": "tiles/mineral/ore_iron.png"
+  },
+  "COAL": {
+    "id": "r_fuel_coal",
+    "name": "Coal",
+    "description": "Can be used as fuel",
+    "texturePath": "tiles/mineral/ore_iron.png"
+  }
+}

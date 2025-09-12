@@ -5,14 +5,14 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.Objects;
 
 public class Resource {
-    private final String name;
     private final String id;
+    private final String name;
     private final String description;
     private final Texture texture;
 
-    public Resource(String name, String id, String description, Texture texture) {
-        this.name = name;
+    public Resource(String id, String name, String description, Texture texture) {
         this.id = id;
+        this.name = name;
         this.description = description;
         this.texture = texture;
     }

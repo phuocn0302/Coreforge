@@ -25,7 +25,8 @@
         "path": "tiles/mineral/ore_iron1.png"
       }
     ],
-    "borders": "tiles/mineral/ore_iron_border.png"
+    "borders": "tiles/mineral/ore_iron_border.png",
+    "harvestResourceId": "r_ore_iron"
   },
   "ORE_COPPER": {
     "type": "MINERAL",
@@ -37,7 +38,8 @@
         "path": "tiles/mineral/ore_copper1.png"
       }
     ],
-    "borders": "tiles/mineral/ore_copper_border.png"
+    "borders": "tiles/mineral/ore_copper_border.png",
+    "harvestResourceId": "r_ore_copper"
   },
   "ORE_COAL": {
     "type": "MINERAL",
@@ -49,7 +51,8 @@
         "path": "tiles/mineral/ore_coal1.png"
       }
     ],
-    "borders": "tiles/mineral/ore_coal_border.png"
+    "borders": "tiles/mineral/ore_coal_border.png",
+    "harvestResourceId": "r_fuel_coal"
   },
   "WATER": {
     "type": "FLUID",
