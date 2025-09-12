@@ -14,7 +14,4 @@ public class FluidTile extends Tile {
     public FluidTile(TileType type, Texture texture, Vector2 position, TileBorder borderTextures) {
         super(type, texture, position, borderTextures);
     }
-
-    @Override
-    public void onInteract() {}
 }

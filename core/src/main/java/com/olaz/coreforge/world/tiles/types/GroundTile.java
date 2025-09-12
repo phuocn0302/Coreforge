@@ -14,8 +14,4 @@ public class GroundTile extends Tile {
     public GroundTile(TileType type, Texture texture, Vector2 position, TileBorder borderTextures) {
         super(type, texture, position, borderTextures);
     }
-
-    @Override
-    public void onInteract() {
-    }
 }
