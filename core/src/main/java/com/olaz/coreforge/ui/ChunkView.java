@@ -1,5 +1,6 @@
 package com.olaz.coreforge.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -157,6 +158,22 @@ public class ChunkView extends Actor {
 
     public void resetOffset() {
         this.offset.set(0, 0);
+    }
+
+    public Tile getTileScreen(float screenX, float screenY) {
+        Vector2 local = screenToChunkView(screenX, screenY);
+
+        float tileSize = (getWidth() / chunk.getSize().getWidth()) * zoom;
+
+        int tileX = (int)((local.x - offset.x) / tileSize);
+        int tileY = (int)((local.y - offset.y) / tileSize);
+
+        return chunk.getTile(tileX, tileY);
+    }
+
+    public Vector2 screenToChunkView(float screenX, float screenY) {
+        Vector2 stageCoords = getStage().screenToStageCoordinates(new Vector2(screenX, screenY));
+        return stageToLocalCoordinates(stageCoords);
     }
 
     public void clampOffsetToEdges() {

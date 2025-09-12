@@ -5,6 +5,7 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.olaz.coreforge.world.tiles.Tile;
 
 public class ChunkViewInputHandler extends InputAdapter implements GestureDetector.GestureListener {
     private final ChunkView view;
@@ -81,7 +82,19 @@ public class ChunkViewInputHandler extends InputAdapter implements GestureDetect
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        return false;
+        if (!isInsideView(x, y)) return false;
+
+        Tile tile = view.getTileScreen(x,y);
+
+        if (tile == null) {
+            return false;
+        }
+
+        if (tile.isCanInteract()) {
+            tile.onInteract();
+        }
+
+        return true;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.olaz.coreforge.world.tiles.types;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.olaz.coreforge.world.tiles.Tile;
@@ -17,6 +18,6 @@ public class MineralTile extends Tile {
 
     @Override
     public void onInteract() {
-        System.out.println("Mineral tile interacted at (%d, %d)%n");
+        Gdx.app.log("MineralTile", "Touched: " + this);
     }
 }

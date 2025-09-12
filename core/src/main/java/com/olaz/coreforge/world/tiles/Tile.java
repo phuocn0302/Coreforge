@@ -89,4 +89,14 @@ public abstract class Tile {
     public void setBorderMask(int borderMask) {
         this.borderMask = borderMask;
     }
+
+    @Override
+    public String toString() {
+        return "Tile{" +
+            "type=" + type +
+            ", position=" + position +
+            ", canInteract=" + canInteract +
+            ", hasBlock=" + hasBlock +
+            '}';
+    }
 }
