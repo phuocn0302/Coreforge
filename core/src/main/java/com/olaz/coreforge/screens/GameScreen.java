@@ -34,7 +34,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        stage = new Stage(new FitViewport(180, 320));
+        stage = new Stage(new FitViewport(320, 180));
 
         setupSkin();
         setupUI();
@@ -99,8 +99,7 @@ public class GameScreen implements Screen {
 
         Table root = new Table();
         root.setFillParent(true);
-        root.top().pad(12);
-        root.add(chunkTable).row();
+        root.add(chunkTable).right().expandX().padRight(8);
 
         stage.addActor(root);
     }
