@@ -6,11 +6,14 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.olaz.coreforge.systems.MainInventory;
 import com.olaz.coreforge.ui.ChunkView;
@@ -96,6 +99,12 @@ public class GameScreen implements Screen {
         chunkTable.setSize(chunkSize, chunkSize);
         chunkTable.setClip(true);
         chunkTable.add(chunkView);
+
+        Texture borderTex = new Texture(Gdx.files.internal("ui/frame.png"));
+        NinePatch borderPatch = new NinePatch(borderTex, 3, 3, 3, 3);
+        NinePatchDrawable borderDrawable = new NinePatchDrawable(borderPatch);
+
+        chunkTable.setBackground(borderDrawable);
 
         Table root = new Table();
         root.setFillParent(true);
