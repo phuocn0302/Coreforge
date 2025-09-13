@@ -104,7 +104,6 @@ public class GameScreen implements Screen {
 
         BasicChunk chunk = new BasicChunk();
         chunkView = new ChunkView(chunk, chunkSize, chunkSize);
-        chunkView.setZoom(2f);
 
         Table chunkTable = new Table();
         chunkTable.setSize(chunkSize, chunkSize);
