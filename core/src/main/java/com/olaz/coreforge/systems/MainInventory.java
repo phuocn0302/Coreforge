@@ -20,6 +20,10 @@ public class MainInventory {
         inventory.put(resource, inventory.get(resource) - quantity);
     }
 
+    public Map<Resource, Integer> getInventory() {
+        return this.inventory;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("MainInventory:\n");

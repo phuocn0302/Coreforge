@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.olaz.coreforge.systems.MainInventory;
 import com.olaz.coreforge.ui.ChunkView;
 import com.olaz.coreforge.ui.ChunkViewInputHandler;
+import com.olaz.coreforge.ui.InventoryView;
 import com.olaz.coreforge.utils.FontUtils;
 import com.olaz.coreforge.world.chunks.BasicChunk;
 import com.olaz.coreforge.world.tiles.types.MineralTile;
@@ -28,6 +30,7 @@ public class GameScreen implements Screen {
     private Stage stage;
     private Skin skin;
     private ChunkView chunkView;
+    private InventoryView inventoryView;
     private ChunkViewInputHandler chunkInputHandler;
     private MainInventory mainInventory;
 
@@ -40,9 +43,9 @@ public class GameScreen implements Screen {
         stage = new Stage(new FitViewport(320, 180));
 
         setupSkin();
+        setupInventory();
         setupUI();
         setupInput();
-        setupInventory();
         setupEvent();
     }
 
@@ -85,11 +88,19 @@ public class GameScreen implements Screen {
     private void setupSkin() {
         skin = new Skin();
         BitmapFont font = FontUtils.loadTTF("fonts/monogram.ttf", 16, Color.WHITE);
+        font.setUseIntegerPositions(false);
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = font;
+
         skin.add("default-font", font);
+        skin.add("default", labelStyle);
     }
 
     private void setupUI() {
         int chunkSize = 164;
+
+        inventoryView = new InventoryView(mainInventory, skin);
 
         BasicChunk chunk = new BasicChunk();
         chunkView = new ChunkView(chunk, chunkSize, chunkSize);
@@ -108,6 +119,7 @@ public class GameScreen implements Screen {
 
         Table root = new Table();
         root.setFillParent(true);
+        root.add(inventoryView).left().expandX().padLeft(8);
         root.add(chunkTable).right().expandX().padRight(8);
 
         stage.addActor(root);
@@ -135,6 +147,7 @@ public class GameScreen implements Screen {
                 ((MineralTile) tile).extract();
                 mainInventory.addToInventory(((MineralTile) tile).getMineResource(), 1);
                 Gdx.app.log("Inventory", mainInventory.toString());
+                inventoryView.refresh();
             }
         });
     }
