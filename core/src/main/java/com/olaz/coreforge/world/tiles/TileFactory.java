@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.math.MathUtils;
 import com.olaz.coreforge.data.ResourcesFactory;
+import com.olaz.coreforge.utils.TextureUtils;
 import com.olaz.coreforge.world.tiles.types.FluidTile;
 import com.olaz.coreforge.world.tiles.types.GroundTile;
 import com.olaz.coreforge.world.tiles.types.MineralTile;
@@ -60,7 +61,7 @@ public class TileFactory {
 
         Texture texture = textureCache.computeIfAbsent(
             texturePath,
-            path -> new Texture(Gdx.files.internal(path))
+            TextureUtils::loadTexture
         );
 
 
@@ -68,7 +69,7 @@ public class TileFactory {
         if (data.borders != null) {
             Texture borderTilemap = textureCache.computeIfAbsent(
                 data.borders,
-                path -> new Texture(Gdx.files.internal(path))
+                TextureUtils::loadTexture
             );
 
             tileBorder = new TileBorder(borderTilemap);

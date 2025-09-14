@@ -18,8 +18,8 @@ public abstract class Block {
     public Block(String id, String description) {
         this.id = id;
         this.description = description;
-        this.size = new Size(1,1);
-        this.position = new Vector2(0,0);
+        this.size = new Size(1, 1);
+        this.position = new Vector2(0, 0);
     }
 
     public String getId() {

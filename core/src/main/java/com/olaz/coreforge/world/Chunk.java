@@ -5,7 +5,7 @@ import com.olaz.coreforge.data.Size;
 import com.olaz.coreforge.world.tiles.Tile;
 
 public abstract class Chunk {
-    private final Size size = new Size(32,32);
+    private final Size size = new Size(32, 32);
     private Array<Tile> tiles;
 
     public Chunk() {

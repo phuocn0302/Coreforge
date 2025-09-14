@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.olaz.coreforge.utils.TextureUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,10 +13,6 @@ import java.util.Map;
 public class ResourcesFactory {
     private static final Map<String, Resource> resourceMap = new HashMap<>();
     private static final Map<String, Texture> textureCache = new HashMap<>();
-
-    private ResourcesFactory() {
-    }
-
 
     public static void loadDefinitions(String path) {
         Json json = new Json();
@@ -26,7 +23,7 @@ public class ResourcesFactory {
 
             Texture resourceTex = textureCache.computeIfAbsent(
                 data.texturePath,
-                texPath -> new Texture(Gdx.files.internal(texPath))
+                TextureUtils::loadTexture
             );
 
             resourceMap.put(data.id, new Resource(

@@ -57,7 +57,7 @@ public class ChunkViewInputHandler extends InputAdapter implements GestureDetect
 
     @Override
     public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-        if (!isInsideView(pointer1.x , pointer2.y)) return false;
+        if (!isInsideView(pointer1.x, pointer2.y)) return false;
 
         float initialDistance = initialPointer1.dst(initialPointer2);
         float currentDistance = pointer1.dst(pointer2);
@@ -85,7 +85,7 @@ public class ChunkViewInputHandler extends InputAdapter implements GestureDetect
     @Override
     public boolean tap(float x, float y, int count, int button) {
         if (!isInsideView(x, y)) return false;
-        Tile tile = view.getTileScreen(x,y);
+        Tile tile = view.getTileScreen(x, y);
 
         if (tile == null) {
             return false;

@@ -165,8 +165,8 @@ public class ChunkView extends Actor {
 
         float tileSize = (getWidth() / chunk.getSize().getWidth()) * zoom;
 
-        int tileX = (int)((local.x - offset.x) / tileSize);
-        int tileY = (int)((local.y - offset.y) / tileSize);
+        int tileX = (int) ((local.x - offset.x) / tileSize);
+        int tileY = (int) ((local.y - offset.y) / tileSize);
 
         return chunk.getTile(tileX, tileY);
     }
