@@ -1,7 +1,8 @@
-package com.olaz.coreforge.world.blocks;
+package com.olaz.coreforge.blocks;
 
 import com.badlogic.gdx.math.Vector2;
 import com.olaz.coreforge.data.Size;
+import java.util.Objects;
 
 public abstract class Block {
     private final String id;
@@ -44,5 +45,17 @@ public abstract class Block {
 
     public void setPosition(Vector2 position) {
         this.position = position;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Block block = (Block) o;
+        return Objects.equals(id, block.id) && Objects.equals(description, block.description) && Objects.equals(size, block.size) && Objects.equals(position, block.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description, size, position);
     }
 }
