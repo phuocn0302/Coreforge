@@ -1,6 +1,6 @@
 package com.olaz.coreforge.utils.observer;
 
 @FunctionalInterface
-public interface Observer<T> {
-    void onEvent(T event);
+public interface SignalListener {
+    void onSignal();
 }
