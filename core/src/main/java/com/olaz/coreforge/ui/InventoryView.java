@@ -2,13 +2,11 @@ package com.olaz.coreforge.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.olaz.coreforge.data.Resource;
@@ -28,6 +26,9 @@ public class InventoryView extends Table {
         listTable = new Table();
         ScrollPane scroll = new ScrollPane(listTable);
         add(scroll).expand().fill();
+
+        this.mainInventory.onInventoryChanged.connect(this::refresh);
+
         refresh();
     }
 

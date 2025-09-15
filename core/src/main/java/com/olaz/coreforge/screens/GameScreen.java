@@ -17,12 +17,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.olaz.coreforge.systems.MainInventory;
+import com.olaz.coreforge.systems.TickSystem;
+import com.olaz.coreforge.systems.TileInteractionManager;
 import com.olaz.coreforge.ui.ChunkView;
 import com.olaz.coreforge.ui.ChunkViewInputHandler;
 import com.olaz.coreforge.ui.InventoryView;
 import com.olaz.coreforge.utils.FontUtils;
 import com.olaz.coreforge.world.chunks.BasicChunk;
-import com.olaz.coreforge.world.tiles.types.MineralTile;
 
 public class GameScreen implements Screen {
 
@@ -32,7 +33,9 @@ public class GameScreen implements Screen {
     private ChunkView chunkView;
     private InventoryView inventoryView;
     private ChunkViewInputHandler chunkInputHandler;
+    private TileInteractionManager tileInteractionManager;
     private MainInventory mainInventory;
+    private TickSystem tickSystem;
 
     public GameScreen(Game game) {
         this.game = game;
@@ -46,7 +49,9 @@ public class GameScreen implements Screen {
         setupInventory();
         setupUI();
         setupInput();
-        setupEvent();
+
+        tickSystem = new TickSystem();
+        tileInteractionManager = new TileInteractionManager(mainInventory);
     }
 
     @Override
@@ -56,6 +61,7 @@ public class GameScreen implements Screen {
         stage.act(delta);
         stage.draw();
 
+        tickSystem.update(delta);
         updatePollingInput(delta);
     }
 
@@ -140,16 +146,6 @@ public class GameScreen implements Screen {
         mainInventory = new MainInventory();
     }
 
-    private void setupEvent() {
-        ChunkViewInputHandler.onTileTapped.connect(tile -> {
-            if (tile instanceof MineralTile) {
-                ((MineralTile) tile).extract();
-                mainInventory.addToInventory(((MineralTile) tile).getMineResource(), 1);
-                Gdx.app.log("Inventory", mainInventory.toString());
-                inventoryView.refresh();
-            }
-        });
-    }
 
     private void updatePollingInput(float delta) {
         if (chunkInputHandler != null)

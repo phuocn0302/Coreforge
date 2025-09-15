@@ -1,15 +1,19 @@
 package com.olaz.coreforge.systems;
 
 import com.olaz.coreforge.data.Resource;
+import com.olaz.coreforge.utils.observer.Signal;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainInventory {
+    public final Signal onInventoryChanged = new Signal();
     private final Map<Resource, Integer> inventory = new HashMap<>();
 
     public void addToInventory(Resource resource, int quantity) {
         inventory.merge(resource, quantity, Integer::sum);
+
+        onInventoryChanged.emit();
     }
 
     public void removeFromInventory(Resource resource, int quantity) {
@@ -18,6 +22,12 @@ public class MainInventory {
         }
 
         inventory.put(resource, inventory.get(resource) - quantity);
+
+        if (inventory.get(resource) <= 0) {
+            inventory.remove(resource);
+        }
+
+        onInventoryChanged.emit();
     }
 
     public Map<Resource, Integer> getInventory() {
