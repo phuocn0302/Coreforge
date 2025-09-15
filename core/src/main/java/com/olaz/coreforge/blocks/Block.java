@@ -1,5 +1,6 @@
 package com.olaz.coreforge.blocks;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.olaz.coreforge.data.Size;
 import java.util.Objects;
@@ -7,18 +8,21 @@ import java.util.Objects;
 public abstract class Block {
     private final String id;
     private final String description;
+    private final Texture texture;
     private Size size;
     private Vector2 position;
 
-    public Block(String id, String description, Size size) {
+    public Block(String id, String description, Texture texture, Size size) {
         this.id = id;
         this.description = description;
+        this.texture = texture;
         this.size = size;
     }
 
-    public Block(String id, String description) {
+    public Block(String id, String description, Texture texture) {
         this.id = id;
         this.description = description;
+        this.texture = texture;
         this.size = new Size(1, 1);
         this.position = new Vector2(0, 0);
     }
