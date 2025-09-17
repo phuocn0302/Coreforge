@@ -16,6 +16,10 @@ public class Size {
         this.height = height;
     }
 
+    public int getArea() {
+        return this.width * this.height;
+    }
+
     public int getWidth() {
         return width;
     }

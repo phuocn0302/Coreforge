@@ -1,7 +1,9 @@
 package com.olaz.coreforge.world.chunks;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.olaz.coreforge.world.Chunk;
+import com.olaz.coreforge.world.tiles.Tile;
 import com.olaz.coreforge.world.tiles.TileFactory;
 
 public class BasicChunk extends Chunk {
@@ -11,6 +13,7 @@ public class BasicChunk extends Chunk {
         int width = getSize().getWidth();
         int height = getSize().getHeight();
         int triangleSize = 8; // Size of the triangular patches
+        Array<Tile> tiles = new Array<>();
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -35,8 +38,10 @@ public class BasicChunk extends Chunk {
                     tileId = "GRASS";
                 }
 
-                getTiles().add(TileFactory.createTile(tileId, new Vector2(x, y)));
+                tiles.add(TileFactory.createTile(tileId, new Vector2(x, y)));
             }
+
+            this.setTiles(tiles);
         }
     }
 }

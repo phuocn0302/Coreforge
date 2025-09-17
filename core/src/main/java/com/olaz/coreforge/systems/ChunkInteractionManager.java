@@ -1,6 +1,9 @@
 package com.olaz.coreforge.systems;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.olaz.coreforge.blocks.machines.TestMachine;
 import com.olaz.coreforge.ui.ChunkViewInputHandler;
 import com.olaz.coreforge.world.Chunk;
 import com.olaz.coreforge.world.tiles.Tile;
@@ -44,11 +47,32 @@ public class ChunkInteractionManager {
     }
 
     private void normalModeHandler(Vector2 position) {
-        extract(position);
+        if (chunk.getBlock(position) == null) {
+            extract(position);
+            return;
+        }
+
+        chunk.placeBlock(new TestMachine(
+                "m_test",
+                "dummy machine",
+                new Texture(Gdx.files.internal("resources/ore/copper.png"))
+            ),
+            position
+        );
     }
 
     private void buildModeHandler(Vector2 position) {
+        if (chunk.getBlock(position) != null) {
+            Gdx.app.log("BuildMode", position + " already has block!");
+        }
 
+        chunk.placeBlock(new TestMachine(
+                "m_test",
+                "dummy machine",
+                new Texture(Gdx.files.internal("resources/ore/copper.png"))
+            ),
+            position
+        );
     }
 
     private void deconstructModeHandler(Vector2 position) {
@@ -56,7 +80,7 @@ public class ChunkInteractionManager {
     }
 
     private void extract(Vector2 position) {
-        Tile tile = chunk.getTile(position.x, position.y);
+        Tile tile = chunk.getTile(position);
 
         if (tile == null) {
             throw new IllegalArgumentException("Tile is null!!");

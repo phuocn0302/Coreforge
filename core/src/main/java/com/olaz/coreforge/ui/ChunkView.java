@@ -1,10 +1,10 @@
 package com.olaz.coreforge.ui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.olaz.coreforge.blocks.Block;
 import com.olaz.coreforge.world.Chunk;
 import com.olaz.coreforge.world.tiles.Tile;
 import com.olaz.coreforge.world.tiles.TileBorder;
@@ -31,14 +31,38 @@ public class ChunkView extends Actor {
 
         float tileSize = (getWidth() / chunk.getSize().getWidth()) * zoom;
 
-        for (Tile tile : chunk.getTiles()) {
-            float x = getX() + offset.x + tile.getPosition().x * tileSize;
-            float y = getY() + offset.y + tile.getPosition().y * tileSize;
-            if (tile.getTexture() != null) {
-                batch.draw(tile.getTexture(), x, y, tileSize, tileSize);
-            }
+        for (int index = 0; index < chunk.getSize().getArea(); index++) {
+            int width = chunk.getSize().getWidth();
+            int tx = index % width;
+            int ty = index / width;
 
-            drawTileBorder(batch, tile, x, y, tileSize);
+            float x = getX() + offset.x + tx * tileSize;
+            float y = getY() + offset.y + ty * tileSize;
+
+            drawTile(batch, index, tileSize, x, y);
+            drawBlock(batch, index, tileSize, x, y);
+        }
+    }
+
+    private void drawTile(Batch batch, int index, float tileSize, float x, float y) {
+        Tile tile = chunk.getTile(index);
+
+        if (tile.getTexture() != null) {
+            batch.draw(tile.getTexture(), x, y, tileSize, tileSize);
+        }
+
+        drawTileBorder(batch, tile, x, y, tileSize);
+    }
+
+    private void drawBlock(Batch batch, int index, float tileSize, float x, float y) {
+        Block block = chunk.getBlock(index);
+
+        if (block == null) {
+            return;
+        }
+
+        if (block.getTexture() != null) {
+            batch.draw(block.getTexture(), x, y, tileSize, tileSize);
         }
     }
 

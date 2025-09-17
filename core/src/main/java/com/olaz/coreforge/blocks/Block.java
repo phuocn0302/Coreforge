@@ -1,8 +1,8 @@
 package com.olaz.coreforge.blocks;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.olaz.coreforge.data.Size;
+
 import java.util.Objects;
 
 public abstract class Block {
@@ -10,7 +10,6 @@ public abstract class Block {
     private final String description;
     private final Texture texture;
     private Size size;
-    private Vector2 position;
 
     public Block(String id, String description, Texture texture, Size size) {
         this.id = id;
@@ -24,7 +23,6 @@ public abstract class Block {
         this.description = description;
         this.texture = texture;
         this.size = new Size(1, 1);
-        this.position = new Vector2(0, 0);
     }
 
     public String getId() {
@@ -43,23 +41,19 @@ public abstract class Block {
         this.size = size;
     }
 
-    public Vector2 getPosition() {
-        return position;
-    }
-
-    public void setPosition(Vector2 position) {
-        this.position = position;
+    public Texture getTexture() {
+        return texture;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Block block = (Block) o;
-        return Objects.equals(id, block.id) && Objects.equals(description, block.description) && Objects.equals(size, block.size) && Objects.equals(position, block.position);
+        return Objects.equals(id, block.id) && Objects.equals(description, block.description) && Objects.equals(size, block.size);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, size, position);
+        return Objects.hash(id, description, size);
     }
 }
