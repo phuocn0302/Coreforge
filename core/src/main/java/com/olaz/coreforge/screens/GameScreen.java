@@ -18,11 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.olaz.coreforge.systems.MainInventory;
 import com.olaz.coreforge.systems.TickSystem;
-import com.olaz.coreforge.systems.TileInteractionManager;
+import com.olaz.coreforge.systems.ChunkInteractionManager;
 import com.olaz.coreforge.ui.ChunkView;
 import com.olaz.coreforge.ui.ChunkViewInputHandler;
 import com.olaz.coreforge.ui.InventoryView;
 import com.olaz.coreforge.utils.FontUtils;
+import com.olaz.coreforge.world.Chunk;
 import com.olaz.coreforge.world.chunks.BasicChunk;
 
 public class GameScreen implements Screen {
@@ -30,10 +31,11 @@ public class GameScreen implements Screen {
     private final Game game;
     private Stage stage;
     private Skin skin;
+    private Chunk chunk;
     private ChunkView chunkView;
     private InventoryView inventoryView;
-    private ChunkViewInputHandler chunkInputHandler;
-    private TileInteractionManager tileInteractionManager;
+    private ChunkViewInputHandler chunkViewInputHandler;
+    private ChunkInteractionManager chunkInteractionManager;
     private MainInventory mainInventory;
     private TickSystem tickSystem;
 
@@ -51,7 +53,7 @@ public class GameScreen implements Screen {
         setupInput();
 
         tickSystem = new TickSystem();
-        tileInteractionManager = new TileInteractionManager(mainInventory);
+        chunkInteractionManager = new ChunkInteractionManager(chunk, chunkViewInputHandler, mainInventory);
     }
 
     @Override
@@ -108,7 +110,7 @@ public class GameScreen implements Screen {
 
         inventoryView = new InventoryView(mainInventory, skin);
 
-        BasicChunk chunk = new BasicChunk();
+        chunk = new BasicChunk();
         chunkView = new ChunkView(chunk, chunkSize, chunkSize);
 
         Table chunkTable = new Table();
@@ -131,12 +133,12 @@ public class GameScreen implements Screen {
     }
 
     private void setupInput() {
-        chunkInputHandler = new ChunkViewInputHandler(chunkView);
-        GestureDetector gestureDetector = new GestureDetector(chunkInputHandler);
+        chunkViewInputHandler = new ChunkViewInputHandler(chunkView);
+        GestureDetector gestureDetector = new GestureDetector(chunkViewInputHandler);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(gestureDetector);
-        multiplexer.addProcessor(chunkInputHandler);
+        multiplexer.addProcessor(chunkViewInputHandler);
         multiplexer.addProcessor(stage);
 
         Gdx.input.setInputProcessor(multiplexer);
@@ -148,7 +150,7 @@ public class GameScreen implements Screen {
 
 
     private void updatePollingInput(float delta) {
-        if (chunkInputHandler != null)
-            chunkInputHandler.pollingUpdate(delta);
+        if (chunkViewInputHandler != null)
+            chunkViewInputHandler.pollingUpdate(delta);
     }
 }

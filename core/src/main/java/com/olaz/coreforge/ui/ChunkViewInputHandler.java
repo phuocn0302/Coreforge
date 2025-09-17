@@ -6,10 +6,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.olaz.coreforge.utils.observer.Event;
-import com.olaz.coreforge.world.tiles.Tile;
 
 public class ChunkViewInputHandler extends InputAdapter implements GestureDetector.GestureListener {
-    public static Event<Tile> onTileTapped = new Event<>();
+    // Emit with local coords of chunk
+    public final Event<Vector2> onChunkTapped = new Event<>();
     private final ChunkView view;
     private float initialZoom;
 
@@ -85,13 +85,7 @@ public class ChunkViewInputHandler extends InputAdapter implements GestureDetect
     @Override
     public boolean tap(float x, float y, int count, int button) {
         if (!isInsideView(x, y)) return false;
-        Tile tile = view.getTileScreen(x, y);
-
-        if (tile == null) {
-            return false;
-        }
-
-        onTileTapped.emit(tile);
+        onChunkTapped.emit(view.screenToChunkCoords(x, y));
 
         return true;
     }
