@@ -53,7 +53,7 @@ public class GameScreen implements Screen {
         setupInput();
 
         tickSystem = new TickSystem();
-        chunkInteractionManager = new ChunkInteractionManager(chunk, chunkViewInputHandler, mainInventory);
+        chunkInteractionManager = new ChunkInteractionManager(chunk, chunkViewInputHandler, tickSystem, mainInventory);
     }
 
     @Override

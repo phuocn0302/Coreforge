@@ -1,0 +1,8 @@
+{
+  "T0_FURNACE": {
+    "type": "FURNACE",
+    "id": "m_t0_furnace",
+    "description": "Primitive furnace, need fuel to operate",
+    "texturePath": "machines/t0_furnace.png"
+  }
+}

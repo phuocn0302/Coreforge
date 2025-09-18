@@ -1,6 +1,7 @@
 package com.olaz.coreforge;
 
 import com.badlogic.gdx.Game;
+import com.olaz.coreforge.blocks.MachineFactory;
 import com.olaz.coreforge.data.RecipeFactory;
 import com.olaz.coreforge.data.ResourcesFactory;
 import com.olaz.coreforge.screens.TitleScreen;
@@ -13,6 +14,7 @@ public class Main extends Game{
         TileFactory.loadDefinitions("data/tiles.json");
         ResourcesFactory.loadDefinitions("data/resources.json");
         RecipeFactory.loadDefinitions("data/recipes.json");
+        MachineFactory.loadDefinitions("data/machines.json");
 
         setScreen(new TitleScreen(this));
     }

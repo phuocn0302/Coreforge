@@ -1,9 +1,9 @@
 package com.olaz.coreforge.systems;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.olaz.coreforge.blocks.machines.TestMachine;
+import com.olaz.coreforge.blocks.Machine;
+import com.olaz.coreforge.blocks.MachineFactory;
 import com.olaz.coreforge.ui.ChunkViewInputHandler;
 import com.olaz.coreforge.world.Chunk;
 import com.olaz.coreforge.world.tiles.Tile;
@@ -19,11 +19,13 @@ public class ChunkInteractionManager {
     private Mode currentMode = Mode.NORMAL;
     private final Chunk chunk;
     private final ChunkViewInputHandler chunkViewInputHandler;
+    private final TickSystem tickSystem;
     private final MainInventory inventory;
 
-    public ChunkInteractionManager(Chunk chunk, ChunkViewInputHandler chunkViewInputHandler, MainInventory inventory) {
+    public ChunkInteractionManager(Chunk chunk, ChunkViewInputHandler chunkViewInputHandler, TickSystem tickSystem, MainInventory inventory) {
         this.chunk = chunk;
         this.chunkViewInputHandler = chunkViewInputHandler;
+        this.tickSystem = tickSystem;
         this.inventory = inventory;
 
 
@@ -51,28 +53,19 @@ public class ChunkInteractionManager {
             extract(position);
             return;
         }
-
-        chunk.placeBlock(new TestMachine(
-                "m_test",
-                "dummy machine",
-                new Texture(Gdx.files.internal("resources/ore/copper.png"))
-            ),
-            position
-        );
     }
 
     private void buildModeHandler(Vector2 position) {
         if (chunk.getBlock(position) != null) {
             Gdx.app.log("BuildMode", position + " already has block!");
+            return;
         }
 
-        chunk.placeBlock(new TestMachine(
-                "m_test",
-                "dummy machine",
-                new Texture(Gdx.files.internal("resources/ore/copper.png"))
-            ),
-            position
-        );
+        // TODO: ref to current selected machine in inventory;
+        Machine currentMachine = MachineFactory.createMachine("m_t0_furnace");
+
+        chunk.placeBlock(currentMachine, position);
+        tickSystem.addToSystem(currentMachine);
     }
 
     private void deconstructModeHandler(Vector2 position) {

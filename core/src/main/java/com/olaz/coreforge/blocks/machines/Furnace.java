@@ -6,12 +6,12 @@ import com.olaz.coreforge.blocks.Machine;
 import com.olaz.coreforge.data.Recipe;
 import com.olaz.coreforge.data.Size;
 
-public class TestMachine extends Machine {
-    public TestMachine(String id, String description, Texture texture, Size size) {
+public class Furnace extends Machine {
+    public Furnace(String id, String description, Texture texture, Size size) {
         super(id, description, texture, size);
     }
 
-    public TestMachine(String id, String description, Texture texture) {
+    public Furnace(String id, String description, Texture texture) {
         super(id, description, texture);
     }
 
