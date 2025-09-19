@@ -2,6 +2,7 @@ package com.olaz.coreforge.systems;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.olaz.coreforge.blocks.Block;
 import com.olaz.coreforge.blocks.Machine;
 import com.olaz.coreforge.blocks.MachineFactory;
 import com.olaz.coreforge.ui.ChunkViewInputHandler;
@@ -69,7 +70,18 @@ public class ChunkInteractionManager {
     }
 
     private void deconstructModeHandler(Vector2 position) {
+        if (chunk.getBlock(position) == null) {
+            Gdx.app.log("DeconstructMode", "No block found at " + position);
+            return;
+        }
 
+        Block currentBlock = chunk.getBlock(position);
+
+        if (currentBlock instanceof Machine) {
+            tickSystem.removeFromSystem((Tickable) currentBlock);
+        }
+
+        chunk.removeBlock(position);
     }
 
     private void extract(Vector2 position) {

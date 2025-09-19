@@ -83,11 +83,7 @@ public abstract class Chunk {
     }
 
     public void placeBlock(Block block, Vector2 position) {
-        if (position.x < 0 || position.x >= size.getWidth() || position.y < 0 || position.y >= size.getHeight()) {
-            return;
-        }
-
-        this.blocks.set((int) (position.y * getSize().getWidth() + position.x), block);
+        placeBlock(block, position.x, position.y);
     }
 
     public void placeBlock(Block block, float x, float y) {
@@ -96,5 +92,17 @@ public abstract class Chunk {
         }
 
         this.blocks.set((int) (y * getSize().getWidth() + x), block);
+    }
+
+    public void removeBlock(Vector2 position) {
+        removeBlock(position.x, position.y);
+    }
+
+    public void removeBlock(float x, float y) {
+        if (x < 0 || x >= size.getWidth() || y < 0 || y >= size.getHeight()) {
+            return;
+        }
+
+        this.blocks.set((int) (y * getSize().getWidth() + x), null);
     }
 }
