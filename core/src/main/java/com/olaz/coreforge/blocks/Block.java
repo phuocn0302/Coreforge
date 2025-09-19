@@ -11,11 +11,16 @@ public abstract class Block {
     private final Texture texture;
     private Size size;
 
+    // For machine identification, static counter increase each instantiate
+    private static int staticCounter = 0;
+    private final int uniqueCounter;
+
     public Block(String id, String description, Texture texture, Size size) {
         this.id = id;
         this.description = description;
         this.texture = texture;
         this.size = size;
+        this.uniqueCounter = staticCounter++;
     }
 
     public Block(String id, String description, Texture texture) {
@@ -23,6 +28,7 @@ public abstract class Block {
         this.description = description;
         this.texture = texture;
         this.size = new Size(1, 1);
+        this.uniqueCounter = staticCounter++;
     }
 
     public String getId() {
@@ -49,11 +55,11 @@ public abstract class Block {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Block block = (Block) o;
-        return Objects.equals(id, block.id) && Objects.equals(description, block.description) && Objects.equals(size, block.size);
+        return Objects.equals(id, block.id) && Objects.equals(description, block.description) && Objects.equals(size, block.size) && Objects.equals(staticCounter, uniqueCounter);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, size);
+        return Objects.hash(id, description, size, uniqueCounter);
     }
 }
