@@ -28,7 +28,7 @@ import com.olaz.coreforge.world.Chunk;
 import com.olaz.coreforge.world.chunks.BasicChunk;
 
 public class GameScreen implements Screen {
-
+    private static final int chunkSize = 164;
     private final Game game;
     private Stage stage;
     private Skin skin;
@@ -48,15 +48,22 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         stage = new Stage(new FitViewport(320, 180));
+
         dragAndDrop = new DragAndDrop();
+        tickSystem = new TickSystem();
+        mainInventory = new MainInventory();
+        chunk = new BasicChunk();
+
+        skin = new Skin();
+        inventoryView = new InventoryView(mainInventory, skin, dragAndDrop);
+        chunkView = new ChunkView(chunk, chunkSize, chunkSize);
+
+        chunkViewInputHandler = new ChunkViewInputHandler(chunkView, dragAndDrop);
+        chunkInteractionManager = new ChunkInteractionManager(chunk, chunkViewInputHandler, tickSystem, mainInventory);
 
         setupSkin();
-        setupInventory();
         setupUI();
         setupInput();
-
-        tickSystem = new TickSystem();
-        chunkInteractionManager = new ChunkInteractionManager(chunk, chunkViewInputHandler, tickSystem, mainInventory);
     }
 
     @Override
@@ -97,7 +104,6 @@ public class GameScreen implements Screen {
     }
 
     private void setupSkin() {
-        skin = new Skin();
         BitmapFont font = FontUtils.loadTTF("fonts/monogram.ttf", 16, Color.WHITE);
         font.setUseIntegerPositions(false);
 
@@ -109,13 +115,6 @@ public class GameScreen implements Screen {
     }
 
     private void setupUI() {
-        int chunkSize = 164;
-
-        inventoryView = new InventoryView(mainInventory, skin, dragAndDrop);
-
-        chunk = new BasicChunk();
-        chunkView = new ChunkView(chunk, chunkSize, chunkSize);
-
         Table chunkTable = new Table();
         chunkTable.setSize(chunkSize, chunkSize);
         chunkTable.setClip(true);
@@ -136,7 +135,6 @@ public class GameScreen implements Screen {
     }
 
     private void setupInput() {
-        chunkViewInputHandler = new ChunkViewInputHandler(chunkView, dragAndDrop);
         GestureDetector gestureDetector = new GestureDetector(chunkViewInputHandler);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
@@ -146,11 +144,6 @@ public class GameScreen implements Screen {
 
         Gdx.input.setInputProcessor(multiplexer);
     }
-
-    private void setupInventory() {
-        mainInventory = new MainInventory();
-    }
-
 
     private void updatePollingInput(float delta) {
         if (chunkViewInputHandler != null)
