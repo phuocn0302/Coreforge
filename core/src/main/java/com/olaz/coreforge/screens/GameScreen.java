@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.olaz.coreforge.systems.MainInventory;
@@ -38,6 +39,7 @@ public class GameScreen implements Screen {
     private ChunkInteractionManager chunkInteractionManager;
     private MainInventory mainInventory;
     private TickSystem tickSystem;
+    private DragAndDrop dragAndDrop;
 
     public GameScreen(Game game) {
         this.game = game;
@@ -46,6 +48,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         stage = new Stage(new FitViewport(320, 180));
+        dragAndDrop = new DragAndDrop();
 
         setupSkin();
         setupInventory();
@@ -108,7 +111,7 @@ public class GameScreen implements Screen {
     private void setupUI() {
         int chunkSize = 164;
 
-        inventoryView = new InventoryView(mainInventory, skin);
+        inventoryView = new InventoryView(mainInventory, skin, dragAndDrop);
 
         chunk = new BasicChunk();
         chunkView = new ChunkView(chunk, chunkSize, chunkSize);
@@ -133,7 +136,7 @@ public class GameScreen implements Screen {
     }
 
     private void setupInput() {
-        chunkViewInputHandler = new ChunkViewInputHandler(chunkView);
+        chunkViewInputHandler = new ChunkViewInputHandler(chunkView, dragAndDrop);
         GestureDetector gestureDetector = new GestureDetector(chunkViewInputHandler);
 
         InputMultiplexer multiplexer = new InputMultiplexer();

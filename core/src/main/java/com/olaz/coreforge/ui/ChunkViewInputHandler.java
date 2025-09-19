@@ -5,16 +5,19 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.olaz.coreforge.utils.observer.Event;
 
 public class ChunkViewInputHandler extends InputAdapter implements GestureDetector.GestureListener {
     // Emit with local coords of chunk
     public final Event<Vector2> onChunkTapped = new Event<>();
     private final ChunkView view;
+    private final DragAndDrop dragAndDrop;
     private float initialZoom;
 
-    public ChunkViewInputHandler(ChunkView view) {
+    public ChunkViewInputHandler(ChunkView view, DragAndDrop dragAndDrop) {
         this.view = view;
+        this.dragAndDrop = dragAndDrop;
     }
 
     public void pollingUpdate(float delta) {
@@ -49,6 +52,7 @@ public class ChunkViewInputHandler extends InputAdapter implements GestureDetect
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
+        if (dragAndDrop.isDragging()) return false;
         if (!isInsideView(x, y)) return false;
 
         view.addOffset(new Vector2(deltaX * 0.3f, -deltaY * 0.3f));

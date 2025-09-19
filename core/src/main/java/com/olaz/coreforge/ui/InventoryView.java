@@ -2,11 +2,13 @@ package com.olaz.coreforge.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.olaz.coreforge.data.Resource;
@@ -18,10 +20,12 @@ public class InventoryView extends Table {
     private final MainInventory mainInventory;
     private final Table listTable;
     private final Skin skin;
+    private final DragAndDrop dragAndDrop;
 
-    public InventoryView(MainInventory mainInventory, Skin skin) {
+    public InventoryView(MainInventory mainInventory, Skin skin, DragAndDrop dragAndDrop) {
         this.mainInventory = mainInventory;
         this.skin = skin;
+        this.dragAndDrop = dragAndDrop;
 
         listTable = new Table();
         ScrollPane scroll = new ScrollPane(listTable);
@@ -37,12 +41,12 @@ public class InventoryView extends Table {
         for (Map.Entry<Resource, Integer> entry : mainInventory.getInventory().entrySet()) {
             Resource resource = entry.getKey();
             int qty = entry.getValue();
-            listTable.add(new ResourceEntryView(resource, qty, skin)).padBottom(2).row();
+            listTable.add(new ResourceEntryView(resource, qty, skin, dragAndDrop)).padBottom(2).row();
         }
     }
 
     private static class ResourceEntryView extends Table {
-        public ResourceEntryView(Resource resource, int quantity, Skin skin) {
+        public ResourceEntryView(Resource resource, int quantity, Skin skin, DragAndDrop dragAndDrop) {
             setBackground(new TextureRegionDrawable(new TextureRegion(
                 new Texture("ui/inventory/resource_entry.png")
             )));
@@ -66,6 +70,20 @@ public class InventoryView extends Table {
             this.align(Align.left);
             this.add(icon).size(16, 16).pad(2);
             this.add(info).size(42, 18).padLeft(2);
+
+
+            dragAndDrop.addSource(new DragAndDrop.Source(this) {
+                @Override
+                public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
+                    DragAndDrop.Payload payload = new DragAndDrop.Payload();
+                    payload.setObject(resource);
+
+                    Image dragIcon = new Image(resource.getTexture());
+                    payload.setDragActor(dragIcon);
+
+                    return payload;
+                }
+            });
         }
     }
 }
