@@ -74,7 +74,7 @@ public class TitleScreen implements Screen {
     }
 
     private void setupStage() {
-        stage = new Stage(new FitViewport(320, 180));
+        stage = new Stage(new FitViewport(180, 320));
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -121,7 +121,8 @@ public class TitleScreen implements Screen {
         Table root = new Table();
         root.setFillParent(true);
         root.add(logo);
-        root.add(stack).padLeft(20);
+        root.row();
+        root.add(stack).padTop(20);
 
         stage.addActor(root);
     }

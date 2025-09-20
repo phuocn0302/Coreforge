@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
@@ -18,7 +17,6 @@ import java.util.Map;
 
 public class InventoryView extends Table {
     private final MainInventory mainInventory;
-    private final Table listTable;
     private final Skin skin;
     private final DragAndDrop dragAndDrop;
 
@@ -26,22 +24,17 @@ public class InventoryView extends Table {
         this.mainInventory = mainInventory;
         this.skin = skin;
         this.dragAndDrop = dragAndDrop;
-
-        listTable = new Table();
-        ScrollPane scroll = new ScrollPane(listTable);
-        add(scroll).expand().fill();
-
         this.mainInventory.onInventoryChanged.connect(this::refresh);
 
         refresh();
     }
 
     public void refresh() {
-        listTable.clearChildren();
+        this.clearChildren();
         for (Map.Entry<Resource, Integer> entry : mainInventory.getInventory().entrySet()) {
             Resource resource = entry.getKey();
             int qty = entry.getValue();
-            listTable.add(new ResourceEntryView(resource, qty, skin, dragAndDrop)).padBottom(2).row();
+            this.add(new ResourceEntryView(resource, qty, skin, dragAndDrop)).padBottom(2).row();
         }
     }
 

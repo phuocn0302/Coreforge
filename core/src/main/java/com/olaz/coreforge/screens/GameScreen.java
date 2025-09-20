@@ -10,13 +10,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Vector4;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.olaz.coreforge.systems.MainInventory;
 import com.olaz.coreforge.systems.TickSystem;
 import com.olaz.coreforge.systems.ChunkInteractionManager;
@@ -47,7 +49,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        stage = new Stage(new FitViewport(320, 180));
+        stage = new Stage(new ExtendViewport(180, 320));
 
         dragAndDrop = new DragAndDrop();
         tickSystem = new TickSystem();
@@ -125,13 +127,32 @@ public class GameScreen implements Screen {
         NinePatchDrawable borderDrawable = new NinePatchDrawable(borderPatch);
 
         chunkTable.setBackground(borderDrawable);
+        ScrollPane inventoryScrollPane = new ScrollPane(inventoryView);
 
-        Table root = new Table();
-        root.setFillParent(true);
-        root.add(inventoryView).left().expandX().padLeft(8);
-        root.add(chunkTable).right().expandX().padRight(8);
+        Table bottomView = new Table();
+        bottomView.add(inventoryScrollPane).left().expand();
 
-        stage.addActor(root);
+        // Manually setting layout, cuz table sucks (or me just being dumb)
+
+        // Chunk anchored at 3/5 screen
+        chunkTable.setPosition(
+            stage.getWidth() / 2f - chunkTable.getWidth() / 2f,
+            stage.getHeight() * 3f / 5f - chunkTable.getHeight() / 2f
+        );
+
+        // Bottom view take all the space at the bottom
+        // Padding: Top, Left, Bottom, Right
+        Vector4 bottomViewPadding = new Vector4(1, 8, 5, 8);
+
+        bottomView.setPosition(bottomViewPadding.y, bottomViewPadding.z);
+
+        bottomView.setSize(
+            stage.getWidth() - bottomViewPadding.y - bottomViewPadding.w,
+            chunkTable.getY() - bottomViewPadding.x - bottomViewPadding.z
+        );
+
+        stage.addActor(chunkTable);
+        stage.addActor(bottomView);
     }
 
     private void setupInput() {
