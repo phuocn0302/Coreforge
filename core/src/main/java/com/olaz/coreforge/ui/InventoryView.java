@@ -65,7 +65,7 @@ public class InventoryView extends Table {
             this.add(info).size(42, 18).padLeft(2);
 
 
-            dragAndDrop.addSource(new DragAndDrop.Source(this) {
+            dragAndDrop.addSource(new DragAndDrop.Source(icon) {
                 @Override
                 public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
                     DragAndDrop.Payload payload = new DragAndDrop.Payload();
