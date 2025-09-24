@@ -6,6 +6,7 @@ import com.olaz.coreforge.blocks.Block;
 import com.olaz.coreforge.blocks.Machine;
 import com.olaz.coreforge.blocks.MachineFactory;
 import com.olaz.coreforge.ui.ChunkViewInputHandler;
+import com.olaz.coreforge.utils.observer.Event;
 import com.olaz.coreforge.world.Chunk;
 import com.olaz.coreforge.world.tiles.Tile;
 import com.olaz.coreforge.world.tiles.types.MineralTile;
@@ -16,6 +17,9 @@ public class ChunkInteractionManager {
         BUILD,
         DECONSTRUCT,
     }
+
+    public Event<Machine> onMachineTapped = new Event<>();
+    public Event<Machine> onMachineRemoved = new Event<>();
 
     private Mode currentMode = Mode.NORMAL;
     private final Chunk chunk;
@@ -50,13 +54,25 @@ public class ChunkInteractionManager {
     }
 
     private void normalModeHandler(Vector2 position) {
-        if (chunk.getBlock(position) == null) {
+        Block block = chunk.getBlock(position);
+
+        if (block == null) {
             extract(position);
             return;
+        }
+
+        if (block instanceof Machine) {
+            onMachineTapped.emit((Machine) block);
         }
     }
 
     private void buildModeHandler(Vector2 position) {
+        Block block = chunk.getBlock(position);
+
+        if (block instanceof Machine) {
+            onMachineTapped.emit((Machine) block);
+        }
+
         if (chunk.getBlock(position) != null) {
             Gdx.app.log("BuildMode", position + " already has block!");
             return;
@@ -79,6 +95,7 @@ public class ChunkInteractionManager {
 
         if (currentBlock instanceof Machine) {
             tickSystem.removeFromSystem((Tickable) currentBlock);
+            onMachineRemoved.emit((Machine) currentBlock);
         }
 
         chunk.removeBlock(position);

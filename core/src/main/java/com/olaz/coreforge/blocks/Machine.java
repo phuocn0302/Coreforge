@@ -1,17 +1,14 @@
 package com.olaz.coreforge.blocks;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
+import com.olaz.coreforge.blocks.machines.ui.MachineUI;
 import com.olaz.coreforge.data.Recipe;
 import com.olaz.coreforge.data.Resource;
 import com.olaz.coreforge.data.Size;
 import com.olaz.coreforge.systems.Tickable;
 
-import java.util.ArrayList;
-
 public abstract class Machine extends Block implements Tickable {
-    private ArrayList<Resource> input = new ArrayList<>();
     private Recipe selectedRecipe;
     private float progress;
     private boolean isActive;
@@ -24,24 +21,11 @@ public abstract class Machine extends Block implements Tickable {
         super(id, description, texture);
     }
 
+    protected abstract void update();
 
     @Override
     public void tickUpdate() {
-        if (selectedRecipe == null) return;
-
-        // Check if inputs are available
-        if (!input.containsAll(selectedRecipe.getInputs())) {
-            isActive = false;
-            progress = 0;
-            return;
-        }
-
-        progress += progress += 1f / selectedRecipe.getDuration();
-
-        if (progress >= selectedRecipe.getDuration()) {
-            serveOutput();
-            progress = 0;
-        }
+        update();
     }
 
     public abstract Array<Recipe> getAvailableRecipes();

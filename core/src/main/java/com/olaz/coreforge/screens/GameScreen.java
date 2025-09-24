@@ -2,6 +2,7 @@ package com.olaz.coreforge.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -25,6 +26,7 @@ import com.olaz.coreforge.systems.ChunkInteractionManager;
 import com.olaz.coreforge.ui.ChunkView;
 import com.olaz.coreforge.ui.ChunkViewInputHandler;
 import com.olaz.coreforge.ui.InventoryView;
+import com.olaz.coreforge.ui.MachineView;
 import com.olaz.coreforge.utils.FontUtils;
 import com.olaz.coreforge.world.Chunk;
 import com.olaz.coreforge.world.chunks.BasicChunk;
@@ -37,6 +39,7 @@ public class GameScreen implements Screen {
     private Chunk chunk;
     private ChunkView chunkView;
     private InventoryView inventoryView;
+    private MachineView machineView;
     private ChunkViewInputHandler chunkViewInputHandler;
     private ChunkInteractionManager chunkInteractionManager;
     private MainInventory mainInventory;
@@ -59,9 +62,13 @@ public class GameScreen implements Screen {
         skin = new Skin();
         inventoryView = new InventoryView(mainInventory, skin, dragAndDrop);
         chunkView = new ChunkView(chunk, chunkSize, chunkSize);
+        machineView = new MachineView(dragAndDrop);
 
         chunkViewInputHandler = new ChunkViewInputHandler(chunkView, dragAndDrop);
         chunkInteractionManager = new ChunkInteractionManager(chunk, chunkViewInputHandler, tickSystem, mainInventory);
+
+        chunkInteractionManager.onMachineTapped.connect(machineView::setMachine);
+        chunkInteractionManager.onMachineRemoved.connect(machineView::removeMachineFromUIMap);
 
         setupSkin();
         setupUI();
@@ -130,7 +137,6 @@ public class GameScreen implements Screen {
         ScrollPane inventoryScrollPane = new ScrollPane(inventoryView);
 
         Table bottomView = new Table();
-        bottomView.add(inventoryScrollPane).left().expand();
 
         // Manually setting layout, cuz table sucks (or me just being dumb)
 
@@ -146,10 +152,14 @@ public class GameScreen implements Screen {
 
         bottomView.setPosition(bottomViewPadding.y, bottomViewPadding.z);
 
+        float bottomViewWidth = stage.getWidth() - bottomViewPadding.y - bottomViewPadding.w;
         bottomView.setSize(
-            stage.getWidth() - bottomViewPadding.y - bottomViewPadding.w,
+            bottomViewWidth,
             chunkTable.getY() - bottomViewPadding.x - bottomViewPadding.z
         );
+
+        bottomView.add(inventoryScrollPane).width(bottomViewWidth / 2);
+        bottomView.add(machineView).width(bottomViewWidth / 2);
 
         stage.addActor(chunkTable);
         stage.addActor(bottomView);
@@ -169,5 +179,14 @@ public class GameScreen implements Screen {
     private void updatePollingInput(float delta) {
         if (chunkViewInputHandler != null)
             chunkViewInputHandler.pollingUpdate(delta);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.N))
+            chunkInteractionManager.setMode(ChunkInteractionManager.Mode.NORMAL);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.B))
+            chunkInteractionManager.setMode(ChunkInteractionManager.Mode.BUILD);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.D))
+            chunkInteractionManager.setMode(ChunkInteractionManager.Mode.DECONSTRUCT);
     }
 }
