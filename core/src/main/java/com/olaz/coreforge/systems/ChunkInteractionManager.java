@@ -19,6 +19,7 @@ public class ChunkInteractionManager {
     }
 
     public Event<Machine> onMachineTapped = new Event<>();
+    public Event<Machine> onMachinePlaced = new Event<>();
     public Event<Machine> onMachineRemoved = new Event<>();
 
     private Mode currentMode = Mode.NORMAL;
@@ -82,6 +83,7 @@ public class ChunkInteractionManager {
         Machine currentMachine = MachineFactory.createMachine("m_t0_furnace");
 
         chunk.placeBlock(currentMachine, position);
+        onMachinePlaced.emit(currentMachine);
         tickSystem.addToSystem(currentMachine);
     }
 

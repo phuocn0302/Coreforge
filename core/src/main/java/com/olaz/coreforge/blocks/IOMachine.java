@@ -2,7 +2,6 @@ package com.olaz.coreforge.blocks;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.olaz.coreforge.blocks.machines.MachineInput;
 import com.olaz.coreforge.blocks.machines.MachineOutput;
@@ -11,8 +10,10 @@ import com.olaz.coreforge.data.Size;
 import com.olaz.coreforge.utils.observer.Event;
 
 public abstract class IOMachine extends Machine implements MachineInput, MachineOutput {
-    public Event<IOMachineEvent.InputChanged> onInputChanged = new Event<>();
-    public Event<IOMachineEvent.OutputChanged> onOutputChanged = new Event<>();
+    public Event<IOMachineEvent.InputAdd> onInputAdd = new Event<>();
+    public Event<IOMachineEvent.InputRemove> onInputRemove = new Event<>();
+    public Event<IOMachineEvent.OutputCreated> onOutputCreated = new Event<>();
+    public Event<IOMachineEvent.OutputRemove> onOutputRemove = new Event<>();
     protected Array<MachineResourceEntry> inputs = new Array<>();
     protected Array<MachineResourceEntry> outputs = new Array<>();
 
@@ -36,15 +37,26 @@ public abstract class IOMachine extends Machine implements MachineInput, Machine
     public void addResource(int slotIndex, MachineResourceEntry resourceEntry) {
         this.inputs.set(slotIndex, resourceEntry);
 
-        onInputChanged.emit(new IOMachineEvent.InputChanged(slotIndex, resourceEntry));
-        Gdx.app.log("IOMachine", resourceEntry.toString());
+        if (resourceEntry != null) {
+            onInputAdd.emit(new IOMachineEvent.InputAdd(slotIndex, resourceEntry));
+            Gdx.app.log("IOMachine", "Input added: " + resourceEntry);
+        } else {
+            onInputRemove.emit(new IOMachineEvent.InputRemove(slotIndex));
+            Gdx.app.log("IOMachine", "Input removed from slot " + slotIndex);
+        }
     }
 
     @Override
     public void addOutput(int slotIndex, MachineResourceEntry resourceEntry) {
         this.outputs.set(slotIndex, resourceEntry);
 
-        onOutputChanged.emit(new IOMachineEvent.OutputChanged(slotIndex, resourceEntry));
+        if (resourceEntry != null) {
+            onOutputCreated.emit(new IOMachineEvent.OutputCreated(slotIndex, resourceEntry));
+            Gdx.app.log("IOMachine", "Output created: " + resourceEntry);
+        } else {
+            onOutputRemove.emit(new IOMachineEvent.OutputRemove(slotIndex));
+            Gdx.app.log("IOMachine", "Output removed from slot " + slotIndex);
+        }
     }
 
     @Override

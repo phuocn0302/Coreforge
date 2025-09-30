@@ -3,7 +3,6 @@ package com.olaz.coreforge.blocks.machines.ui;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.olaz.coreforge.blocks.IOMachineEvent;
-import com.olaz.coreforge.blocks.machines.MachineResourceEntry;
 import com.olaz.coreforge.blocks.machines.ui.components.InputSlot;
 import com.olaz.coreforge.blocks.machines.ui.components.OutputSlot;
 
@@ -36,11 +35,19 @@ public class IOMachineUI extends MachineUI {
     }
 
 
-    public void updateInputSlot(IOMachineEvent.InputChanged event) {
-        inputSlots.get(event.slot).setResource(event.entry);
+    public void updateInputSlot(IOMachineEvent.InputAdd event) {
+        inputSlots.get(event.slot).addResource(event.entry);
     }
 
-    public void updateOutputSlot(IOMachineEvent.OutputChanged event) {
-        outputSlots.get(event.slot).setResource(event.entry);
+    public void updateInputSlot(IOMachineEvent.InputRemove event) {
+        inputSlots.get(event.slot).removeResource();
+    }
+
+    public void updateOutputSlot(IOMachineEvent.OutputCreated event) {
+        outputSlots.get(event.slot).addResource(event.entry);
+    }
+
+    public void updateOutputSlot(IOMachineEvent.OutputRemove event) {
+        outputSlots.get(event.slot).removeResource();
     }
 }

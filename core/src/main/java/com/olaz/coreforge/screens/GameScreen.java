@@ -27,6 +27,7 @@ import com.olaz.coreforge.ui.ChunkView;
 import com.olaz.coreforge.ui.ChunkViewInputHandler;
 import com.olaz.coreforge.ui.InventoryView;
 import com.olaz.coreforge.ui.MachineView;
+import com.olaz.coreforge.ui.MachineUIManager;
 import com.olaz.coreforge.utils.FontUtils;
 import com.olaz.coreforge.world.Chunk;
 import com.olaz.coreforge.world.chunks.BasicChunk;
@@ -45,6 +46,7 @@ public class GameScreen implements Screen {
     private MainInventory mainInventory;
     private TickSystem tickSystem;
     private DragAndDrop dragAndDrop;
+    private MachineUIManager machineUIManager;
 
     public GameScreen(Game game) {
         this.game = game;
@@ -62,12 +64,14 @@ public class GameScreen implements Screen {
         skin = new Skin();
         inventoryView = new InventoryView(mainInventory, skin, dragAndDrop);
         chunkView = new ChunkView(chunk, chunkSize, chunkSize);
-        machineView = new MachineView(dragAndDrop);
+        machineUIManager = new MachineUIManager(dragAndDrop, mainInventory);
+        machineView = new MachineView(machineUIManager);
 
         chunkViewInputHandler = new ChunkViewInputHandler(chunkView, dragAndDrop);
         chunkInteractionManager = new ChunkInteractionManager(chunk, chunkViewInputHandler, tickSystem, mainInventory);
 
         chunkInteractionManager.onMachineTapped.connect(machineView::setMachine);
+        chunkInteractionManager.onMachinePlaced.connect(machineView::setMachine);
         chunkInteractionManager.onMachineRemoved.connect(machineView::removeMachineFromUIMap);
 
         setupSkin();
